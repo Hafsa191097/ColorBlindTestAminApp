@@ -1,5 +1,7 @@
-
 // import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -9,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import '../_Globals/_GlobalMethods.dart';
 import '../_Globals/imagesApi.dart';
-
+import 'dart:developer';
 
 class UploadQuiz extends StatefulWidget {
   const UploadQuiz({super.key});
@@ -32,7 +34,7 @@ class _UploadQuizState extends State<UploadQuiz> {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isUploaded = false;
   bool loading = false;
-  String imageName ='';
+  String imageName = '';
   Uint8List? _imageBytes;
   @override
   void dispose() {
@@ -105,80 +107,94 @@ class _UploadQuizState extends State<UploadQuiz> {
               ],
             ),
           );
-        }
-      );
+        });
   }
 
   void _getFilefromcamera(BuildContext context) async {
-    final XFile? imagepicked= await _picker.pickImage(source: ImageSource.camera);
+    final XFile? imagepicked =
+        await _picker.pickImage(source: ImageSource.camera);
     _CroppImage(imagepicked!.path);
     Navigator.pop(context);
   }
 
   void _getFilefromgallery(BuildContext context) async {
-    final XFile? imagepicked= await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? imagepicked =
+        await _picker.pickImage(source: ImageSource.gallery);
     _CroppImage(imagepicked!.path);
     Navigator.pop(context);
-    
   }
 
   void _CroppImage(filepath) async {
-      
-    CroppedFile? imagecropped= await ImageCropper().cropImage(sourcePath: filepath,maxHeight: 1080,maxWidth: 1080);
-    if(imagecropped != null){
+    CroppedFile? imagecropped = await ImageCropper()
+        .cropImage(sourcePath: filepath, maxHeight: 1080, maxWidth: 1080);
+    if (imagecropped != null) {
       setState(() {
-        image_file= File(imagecropped.path);
+        image_file = File(imagecropped.path);
         _imageBytes = image_file!.readAsBytesSync();
-        imageName = image_file!.path.split('/').last; 
+        imageName = image_file!.path.split('/').last;
       });
     }
   }
 
   void _submitform(BuildContext context) async {
+    log("Submit Form");
+
     final isValid = _signupformkey.currentState!.validate();
     if (isValid) {
+      log("Valid");
+      // If image is not present, we dont continue
       if (image_file == null) {
+        log("Image File Null");
         Global_Methods.showErrorBox(
           error: "Please Choose An Image",
           ctx: context,
         );
-      } else {
         return;
-      }
+      } 
+      
       setState(() {
         _isloading = true;
       });
     }
+
     try {
-      
+      log("Try");
+
+
       final response = await api.save(imageName, _imageBytes!);
-      print(response.downloadLink);
-      // final imgUrl = response.downloadLink;
-      // final User? user = _auth.currentUser;
+      // log("${response.downloadLink}");
+      final imgUrl = response.downloadLink;
+      // log('Image File: $image_file');
+      // log('Image path: ${image_file!.path}');
+      // final User? user = FirebaseAuth.instance.currentUser;
       // final uid = user!.uid;
       // final ref = FirebaseStorage.instance
       //     .ref()
       //     .child('QuizImages')
-      //     .child('$uid.jpg');
+          // .child(imageName);
+
       // await ref.putFile(image_file!);
-      // imgUrl = await ref.getDownloadURL();
-      // final refer = FirebaseFirestore.instance
-      // .collection('Quiz')
-      // .doc();
-      // var data1 = {
-      //   'Description' : _description,
-      //   'ImageUrl' : imgUrl,
-      //   'Title' : _title,
-      // };
-      // await refer.set(data1, SetOptions(merge: true));
-      
+
+      // final imgUrl = await ref.getDownloadURL();
+
+      log("Image Url: $imgUrl");
+      final refer = FirebaseFirestore.instance
+      .collection('Quiz')
+      .doc();
+      var data1 = {
+        'Description' : _description.text,
+        'ImageUrl' : imgUrl.toString(),
+        'Title' : _title.text,
+      };
+      await refer.set(data1, SetOptions(merge: true));
+      log('Uploaded i assume');
       Navigator.canPop(context) ? Navigator.pop(context) : null;
     } catch (e) {
       setState(() {
         _isloading = false;
       });
       Global_Methods.showErrorBox(error: e.toString(), ctx: context);
-      print("Error Occured $e");
+      log("Error Occured $e");
     }
     setState(() {
       _isloading = false;
@@ -195,14 +211,7 @@ class _UploadQuizState extends State<UploadQuiz> {
             const SizedBox(
               height: 70,
             ),
-            const Text(
-              "Add Quiz Data",
-              style: TextStyle(
-                color: Colors.redAccent,
-                fontSize: 35,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
+            
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ListView(
@@ -231,16 +240,16 @@ class _UploadQuizState extends State<UploadQuiz> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(96),
                                 child: _imageBytes == null
-                                  ? const Icon(
-                                      Icons.camera_enhance_sharp,
-                                      color: Colors.grey,
-                                      size: 30,
-                                    )
-                                  : Image.memory(
-                                    _imageBytes!,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
+                                    ? const Icon(
+                                        Icons.camera_enhance_sharp,
+                                        color: Colors.grey,
+                                        size: 30,
+                                      )
+                                    : Image.memory(
+                                        _imageBytes!,
+                                        fit: BoxFit.fill,
+                                      ),
+                              ),
                             ),
                           ),
                         ),
@@ -347,7 +356,7 @@ class _UploadQuizState extends State<UploadQuiz> {
                                   height: 48,
                                   child: MaterialButton(
                                     onPressed: () {
-                                      _submitform(context); 
+                                      _submitform(context);
                                     },
                                     color: Colors.redAccent,
                                     elevation: 8,
