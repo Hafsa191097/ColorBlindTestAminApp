@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "704900292037",
+    "project_id": "mechire-acbe9",
+    "storage_bucket": "mechire-acbe9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704900292037:android:020d90c6666bc7f70e3fac",
+        "android_client_info": {
+          "package_name": "com.example.admin_colorblindtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704900292037-2qgtf639v52su3i5d7h0tp8d905359p2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBajr0LjAvZ1qttla5SuxiMpOgvCwT6Fr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704900292037-2qgtf639v52su3i5d7h0tp8d905359p2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "704900292037-rn4git0rcgeu4pjem6o3gpl8t60pos8q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.colorBlindTest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704900292037:android:1d274e321fd986150e3fac",
+        "android_client_info": {
+          "package_name": "com.example.color_blind_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704900292037-2qgtf639v52su3i5d7h0tp8d905359p2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBajr0LjAvZ1qttla5SuxiMpOgvCwT6Fr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704900292037-2qgtf639v52su3i5d7h0tp8d905359p2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "704900292037-rn4git0rcgeu4pjem6o3gpl8t60pos8q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.colorBlindTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
