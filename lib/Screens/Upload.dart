@@ -13,6 +13,9 @@ import '../_Globals/_GlobalMethods.dart';
 import '../_Globals/imagesApi.dart';
 import 'dart:developer';
 
+import 'Home.dart';
+import 'HomeScreen.dart';
+
 class UploadQuiz extends StatefulWidget {
   const UploadQuiz({super.key});
 
@@ -206,10 +209,12 @@ class _UploadQuizState extends State<UploadQuiz> {
     Size sizze = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ), 
+        leading: BackButton(
+            color: Colors.black,
+            onPressed: (){
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const HomeScreen()));
+            },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
