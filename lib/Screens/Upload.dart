@@ -1,7 +1,7 @@
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -205,6 +205,12 @@ class _UploadQuizState extends State<UploadQuiz> {
   Widget build(BuildContext context) {
     Size sizze = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ), 
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -238,7 +244,7 @@ class _UploadQuizState extends State<UploadQuiz> {
                                 borderRadius: BorderRadius.circular(100),
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(96),
+                                borderRadius: BorderRadius.circular(100),
                                 child: _imageBytes == null
                                     ? const Icon(
                                         Icons.camera_enhance_sharp,

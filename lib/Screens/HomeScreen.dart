@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       body: TabBarView(
         controller: _TabController,
         children: const[
-          HomeMain(),
+          Games(),
           UploadQuiz(),
           Settings(),
         ]
